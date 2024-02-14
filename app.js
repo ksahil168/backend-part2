@@ -5,7 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 //make sure you setup express-session
 const expressSession = require("express-session");
-const flash = require("connect-flash")
+const flash = require("connect-flash");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -24,6 +24,11 @@ app.use(
     secret: "hello hello baye bye",
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(userRouter.serializerUser());
+passport.deserializeUser(userRouter.deserializeUser());
 //make sure you put flash in app.use function
 app.use(flash());
 

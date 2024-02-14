@@ -59,4 +59,23 @@ router.get("/find1", async function (req, res) {
 
 //Q4-How can I filter documents based on the existence of a field in Mongoose?
 
+router.get("/find2", async function (req, res) {
+  let user = await userModel.find({ categories: { $exists: true } });
+  res.send(user);
+});
+
+//How can I filter documents based on a specific field's Mongoose?
+router.get("/find3", async function (req, res) {
+  let user = await userModel.find({
+    $expr: {
+      $and: [
+        { $gte: [{ $strLenCP: "$nickname" }, 0] },
+        { $lte: [{ $strLenCP: "$nickname" }, 4] },
+      ],
+    },
+  });
+
+  res.send(user);
+});
+
 module.exports = router;
